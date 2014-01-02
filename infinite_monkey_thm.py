@@ -3,46 +3,60 @@
 import random
 
 goal = "methinks it is like a weasel"
+goal_length = len(goal)
 
 abcs = list("abcdefghijklmnopqrstuvwxyz ")
 assert len(abcs) == 27
 
 def random_word():
-    goal_length = len(goal)
     return "".join([random.choice(abcs) for i in range(goal_length)])
+
+def perturb(word):
+    '''
+    Leaves alone the letters that match the goal. Replaces the other with a
+    random letter.
+    '''
+    ret = list(word)
+
+    for i in range(goal_length):
+        if word[i] != goal[i]:
+            ret[i] = random.choice(abcs)
+
+    return "".join(ret)
+
 
 def score(w1, w2):
     word_length = len(w1)
 
-    score = 0
+    num_same = 0
     for i in range(word_length):
         if w1[i] == w2[i]:
-            score+=1
+            num_same+=1
 
-    return float(score) / word_length
+    return float(num_same) / word_length
 
-def search(times):
+def search(seed, batch_size):
+    score_num = 0
 
-    max = 0
-    best = ''
-    for i in range(times):
-        word = random_word()
-        s = score(word, goal)
+    for i in range(batch_size):
+        seed = perturb(seed)
+        score_num = score(seed, goal)
 
-        if s == 1:
-            return word
+        if seed == goal:
+            break
 
-        if s > max:
-            max = s
-            best = word
-    print "%f\t%s" % (max, best)
+    print "%f\t%s" %(score_num, seed)
+
+    return seed
 
 
 def main():
 
+    word = random_word()
     while 1:
-        word = progress(1000)
+        word = search(word, 1)
         if word == goal:
             break
 
-main()
+if __name__ == "__main__":
+    main()
