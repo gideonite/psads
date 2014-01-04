@@ -14,6 +14,12 @@ class Fraction:
         self.num = top
         self.den = bottom
 
+    def getNum():
+        return self.num
+
+    def getDen():
+        return self.den
+
     def __str__(self):
         return str(self.num)+"/"+str(self.den)
 
