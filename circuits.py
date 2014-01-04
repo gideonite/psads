@@ -168,3 +168,12 @@ def demorgan():
     Connector(ab_rhs, rhs)
     Connector(cd_rhs, rhs)
     print rhs.getOutput()
+
+# TODO how do you make an addr circuit which has two outputs using this
+# machinery?
+def half_adder():
+    sum = XorGate("sum")
+    carry = AndGate("carry")
+
+def addr():
+
