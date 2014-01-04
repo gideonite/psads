@@ -48,6 +48,9 @@ class Fraction:
     def __str__(self):
         return str(self.num)+"/"+str(self.den)
 
+    def __repr__(self):
+        return "Fraction(" + str(self.num) + ", " + str(self.den) + ")"
+
     def show(self):
         print(self.num,"/",self.den)
 
