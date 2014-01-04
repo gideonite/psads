@@ -12,7 +12,14 @@ def gcd(m,n):
     return n
 
 class Fraction:
+
     def __init__(self,top,bottom):
+        if type(top) != int:
+            raise TypeError("'" + str(top) + "'" + " is not an integer.")
+
+        if type(bottom) != int:
+            raise TypeError("'" + str(bottom) + "'" + " is not an integer.")
+
         common = gcd(top, bottom)
         self.num = top // common
         self.den = bottom // common
