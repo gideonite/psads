@@ -56,20 +56,13 @@ class AndGate(BinaryGate):
         else:
             return 0
 
-class NandGate(BinaryGate):
-
-    def __init__(self,n):
-        BinaryGate.__init__(self,n)
+class NandGate(AndGate):
 
     def performGateLogic(self):
-
-        a = self.getPinA()
-        b = self.getPinB()
-        if not (a==1 and b==1):
-            return 1
-        else:
+        if AndGate.performGateLogic(self) == 1:
             return 0
-
+        else:
+            return 1
 
 class OrGate(BinaryGate):
 
@@ -85,19 +78,13 @@ class OrGate(BinaryGate):
         else:
             return 0
 
-class NorGate(BinaryGate):
-
-    def __init__(self,n):
-        BinaryGate.__init__(self,n)
+class NorGate(OrGate):
 
     def performGateLogic(self):
-
-        a = self.getPinA()
-        b = self.getPinB()
-        if not(a ==1 or b==1):
-            return 1
-        else:
+        if OrGate.performGateLogic(self) == 1:
             return 0
+        else:
+            return 1
 
 class UnaryGate(LogicGate):
 
@@ -165,7 +152,7 @@ def demorgan():
     print lhs.getOutput()
 
     rhs = AND("RHS")
-    ab_rhs NandGate("AB")
+    ab_rhs = NandGate("AB")
     cd_rhs = NandGate("CD")
     Connector(ab_rhs, rhs)
     Connector(cd_rhs, rhs)
