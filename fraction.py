@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import division
+
 def gcd(m,n):
     while m%n != 0:
         oldm = m
@@ -43,7 +45,13 @@ class Fraction:
 
         return Fraction(newnum, newden)
 
-    def __div__(self,otherfraction):
+    def __div__(self, otherfraction):
+        if otherfraction == Fraction(0,1):
+            raise ZeroDivisionError
+        else:
+            return self * Fraction(otherfraction.den, otherfraction.num)
+
+    def __truediv__(self, otherfraction):
         if otherfraction == Fraction(0,1):
             raise ZeroDivisionError
         else:
@@ -92,3 +100,5 @@ assert x > zero
 assert not x < zero
 assert x < y
 assert not x > y
+
+print "success!"
