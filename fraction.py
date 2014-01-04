@@ -71,6 +71,9 @@ class Fraction:
             raise TypeError("Cannot add 'Fraction' and " + \
                     "'" + str(type(other))  + "'")
 
+    def __iadd__(self, other):
+        return self + other
+
     def __sub__(self, otherfraction):
         minus_one = Fraction(-1,1)
         return self + (otherfraction*minus_one)
@@ -138,5 +141,8 @@ assert x < y
 assert not x > y
 
 assert Fraction(85, 2) == 42 + x
+z = x
+z+=z
+assert one == z
 
 print "success!"
