@@ -11,8 +11,9 @@ def gcd(m,n):
 
 class Fraction:
     def __init__(self,top,bottom):
-        self.num = top
-        self.den = bottom
+        common = gcd(top, bottom)
+        self.num = top // common
+        self.den = bottom // common
 
     def getNum():
         return self.num
@@ -30,8 +31,7 @@ class Fraction:
         newnum = self.num*otherfraction.den + \
                 self.den*otherfraction.num
         newden = self.den * otherfraction.den
-        common = gcd(newnum,newden)
-        return Fraction(newnum//common,newden//common)
+        return Fraction(newnum, newden)
 
     def __sub__(self, otherfraction):
         minus_one = Fraction(-1,1)
@@ -40,9 +40,8 @@ class Fraction:
     def __mul__(self, otherfraction):
         newnum = self.num*otherfraction.num
         newden = self.den*otherfraction.den
-        common = gcd(newnum,newden)
 
-        return Fraction(newnum//common,newden//common)
+        return Fraction(newnum, newden)
 
     def __div__(self,otherfraction):
         if otherfraction == Fraction(0,1):
