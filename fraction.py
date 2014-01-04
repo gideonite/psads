@@ -11,9 +11,24 @@ def gcd(m,n):
         n = oldm%oldn
     return n
 
+def sign(n):
+    if n > 0:
+        return 1
+    elif n < 0:
+        return -1
+    else:
+        return 0
+
 class Fraction:
 
     def __init__(self,top,bottom):
+        if bottom == 0:
+            raise ZeroDivisionError("Denominator is zero.")
+
+        s = sign(top) * sign(bottom)
+        top = abs(top)
+        bottom = abs(bottom)
+
         if type(top) != int:
             raise TypeError("'" + str(top) + "'" + " is not an integer.")
 
@@ -21,7 +36,7 @@ class Fraction:
             raise TypeError("'" + str(bottom) + "'" + " is not an integer.")
 
         common = gcd(top, bottom)
-        self.num = top // common
+        self.num = s * (top // common)
         self.den = bottom // common
 
     def getNum():
