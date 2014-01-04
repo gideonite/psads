@@ -57,6 +57,20 @@ class Fraction:
         newden = self.den * otherfraction.den
         return Fraction(newnum, newden)
 
+    def __radd__(self, other):
+
+        # dispatch on type of other
+        if int == type(other):
+            return Fraction(other, 1) + self
+        elif float == type(other):
+            (decimal, integer) = math.modf(other)
+            exp = len(str(decimal)) - 2     # What a hack! Fear and yuck.
+
+            return Fraction(integer, 1) + Fraction(decimal * exp, exp) + self
+        else:
+            raise TypeError("Cannot add 'Fraction' and " + \
+                    "'" + str(type(other))  + "'")
+
     def __sub__(self, otherfraction):
         minus_one = Fraction(-1,1)
         return self + (otherfraction*minus_one)
@@ -122,5 +136,7 @@ assert x > zero
 assert not x < zero
 assert x < y
 assert not x > y
+
+assert Fraction(85, 2) == 42 + x
 
 print "success!"
