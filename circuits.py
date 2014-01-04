@@ -86,6 +86,17 @@ class NorGate(OrGate):
         else:
             return 1
 
+class XorGate(OrGate):
+
+    def performGateLogic(self):
+        a = self.getPinA()
+        b = self.getPinB()
+
+        if (a == 0 and b == 1) or (a == 1 and b == 0):
+            return 1
+        else:
+            return 0
+
 class UnaryGate(LogicGate):
 
     def __init__(self,n):
