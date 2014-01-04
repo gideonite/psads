@@ -145,7 +145,6 @@ class Connector:
     def getTo(self):
         return self.togate
 
-
 def main():
    g1 = AndGate("G1")
    g2 = AndGate("G2")
@@ -156,8 +155,18 @@ def main():
    c3 = Connector(g3,g4)
    print(g4.getOutput())
 
-#main()
+def demorgan():
+    # NOT (( A and B) or (C and D)) == NOT( A and B ) and NOT (C and D)
+    lhs = NorGate("LHS")
+    ab = AndGate("AB")
+    cd = AndGate("CD")
+    Connector(ab, lhs)
+    Connector(cd, lhs)
+    print lhs.getOutput()
 
-# NorGate, NandGate
-#
-# NOT (( A and B) or (C and D)) == NOT( A and B ) and NOT (C and D)
+    rhs = AND("RHS")
+    ab_rhs NandGate("AB")
+    cd_rhs = NandGate("CD")
+    Connector(ab_rhs, rhs)
+    Connector(cd_rhs, rhs)
+    print rhs.getOutput()
