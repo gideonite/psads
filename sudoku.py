@@ -1,38 +1,71 @@
 #!/usr/bin/python
 
-ex = [  [5,3,0,0,7,0,0,0,0],\
-        [6,0,0,1,9,5,0,0,0],\
-        [0,9,8,0,0,0,0,6,0],\
-        [8,0,0,0,6,0,0,0,3],\
-        [4,0,0,8,0,3,0,0,1],\
-        [7,0,0,0,2,0,0,0,6],\
-        [0,6,0,0,0,0,2,8,0],\
-        [0,0,0,4,1,9,0,0,5],\
-        [0,0,0,0,8,0,0,7,9] ]
+ex = [  [5,3,{},{},7,{},{},{},{}],\
+        [6,{},{},1,9,5,{},{},{}],\
+        [{},9,8,{},{},{},{},6,{}],\
+        [8,{},{},{},6,{},{},{},3],\
+        [4,{},{},8,{},3,{},{},1],\
+        [7,{},{},{},2,{},{},{},6],\
+        [{},6,{},{},{},{},2,8,{}],\
+        [{},{},{},4,1,9,{},{},5],\
+        [{},{},{},{},8,{},{},7,9] ]
+
+numbers = {1,2,3,4,5,6,7,8,9}
 
 def getBlock(i, j, puzzle):
     '''
     Given a row i, column j, and sudoku puzzle, returns the block containing
     position i,j.
     '''
-    ret = []
-    for row in puzzle[0:3]:
-        ret.append(row[0:3])
-    return ret
 
-#print getBlock('a','b', ex)
+    ioffset = i%3
+    istart = i-ioffset
+    iend = istart+3
 
-numbers = {1,2,3,4,5,6,7,8,9}
+    joffset = j%3
+    jstart = j-joffset
+    jend = jstart+3
 
-row = ex[0]
-knowns = []
-for el in row:
-    if el != 0:
-        knowns.append(el)
-print knowns
+    return [row[jstart:jend] for row in puzzle[istart:iend]]
 
-for j in range(len(row)):
-    if row[j] == 0:
-        row[j] = numbers.symmetric_difference(knowns)
+assert getBlock(0,1,ex) == getBlock(0,0,ex)
 
-print row
+def getColumn(j, puzzle):
+    '''
+    Returns the j-th column of the puzzle
+    '''
+    return [row[j] for row in puzzle]
+
+def filled(l):
+    return [item for item in l if (item != 0 and type(item) == int)]
+
+def flatten(l):
+    return [j for i in l for j in i]
+
+def run(puzzle):
+    while 1:
+        for i in range(len(puzzle)):
+            row = puzzle[i]
+        filled_in_row = filled(row)
+        for j in range(len(row)):
+
+            n = row[j]
+            if type(n) == set and len(n) == 1:
+                puzzle[i][j] = n.pop()
+
+            if set == type(n):
+                fs = filled(getColumn(j, puzzle)) +\
+                        filled(flatten(getBlock(i,j,puzzle)) +\
+                        filled_in_row)
+                fs = set(fs)
+                possibilities = numbers.difference(fs)
+                puzzle[i][j] = possibilities
+
+        print puzzle
+
+        if [i for i in flatten(puzzle) if set == type(i)] == []:
+            break
+
+    print puzzle
+
+run(ex)
