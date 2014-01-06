@@ -1,34 +1,41 @@
 #!/usr/bin/python
 
-ex = [  [5,3,{},{},7,{},{},{},{}],\
-        [6,{},{},1,9,5,{},{},{}],\
-        [{},9,8,{},{},{},{},6,{}],\
-        [8,{},{},{},6,{},{},{},3],\
-        [4,{},{},8,{},3,{},{},1],\
-        [7,{},{},{},2,{},{},{},6],\
-        [{},6,{},{},{},{},2,8,{}],\
-        [{},{},{},4,1,9,{},{},5],\
-        [{},{},{},{},8,{},{},7,9] ]
+import copy
 
-numbers = {1,2,3,4,5,6,7,8,9}
+ex1 = [ [0,2,0,1],
+        [4,0,0,2],
+        [0,3,0,4],
+        [1,0,0,3]   ]
 
-def getBlock(i, j, puzzle):
+ex2 = [ [5,3,0,0,7,0,0,0,0],
+        [6,0,0,1,9,5,0,0,0],
+        [0,9,8,0,0,0,0,6,0],
+        [8,0,0,0,6,0,0,0,3],
+        [4,0,0,8,0,3,0,0,1],
+        [7,0,0,0,2,0,0,0,6],
+        [0,6,0,0,0,0,2,8,0],
+        [0,0,0,4,1,9,0,0,5],
+        [0,0,0,0,8,0,0,7,9] ]
+
+def getBlock(i, j, puzzle,blocksize):
     '''
     Given a row i, column j, and sudoku puzzle, returns the block containing
     position i,j.
     '''
 
-    ioffset = i%3
+    ioffset = i%blocksize
     istart = i-ioffset
-    iend = istart+3
+    iend = istart+blocksize
 
-    joffset = j%3
+    joffset = j%blocksize
     jstart = j-joffset
-    jend = jstart+3
+    jend = jstart+blocksize
+
+    puzzle = copy.deepcopy(puzzle)
 
     return [row[jstart:jend] for row in puzzle[istart:iend]]
 
-assert getBlock(0,1,ex) == getBlock(0,0,ex)
+assert getBlock(0,1,ex1,3) == getBlock(0,0,ex1,3)
 
 def getColumn(j, puzzle):
     '''
@@ -39,33 +46,25 @@ def getColumn(j, puzzle):
 def filled(l):
     return [item for item in l if (item != 0 and type(item) == int)]
 
-def flatten(l):
-    return [j for i in l for j in i]
+assert [] == filled([0, {}])
+assert [1,2] == filled([0,1,2])
+assert [1,2,2] == filled([{},1,2,2])
 
-def run(puzzle):
-    while 1:
-        for i in range(len(puzzle)):
-            row = puzzle[i]
-        filled_in_row = filled(row)
+def step(puzzle,numbers,blocksize):
+    for i in range(len(puzzle)):
+        row = puzzle[i]
         for j in range(len(row)):
-
             n = row[j]
+
+            block = getBlock(i,j,ex2,blocksize)
+
             if type(n) == set and len(n) == 1:
                 puzzle[i][j] = n.pop()
-
-            if set == type(n):
-                fs = filled(getColumn(j, puzzle)) +\
-                        filled(flatten(getBlock(i,j,puzzle)) +\
-                        filled_in_row)
-                fs = set(fs)
-                possibilities = numbers.difference(fs)
+            elif 0 == n or set == type(n):
+                constraints = filled(getColumn(j, puzzle) + \
+                        #[i for row in getBlock(i,j,ex2) for i in row] + \
+                        row)
+                constraints = set(constraints)
+                possibilities = numbers.difference(constraints)
                 puzzle[i][j] = possibilities
-
-        print puzzle
-
-        if [i for i in flatten(puzzle) if set == type(i)] == []:
-            break
-
-    print puzzle
-
-run(ex)
+    return puzzle
