@@ -120,24 +120,29 @@ class UnorderedList:
             curr = curr.getNext()
 
     def insert(self, i, item):
-        curr = self.head
-        prev = None
+        '''
+        self, i, item -> None.
+        Adds the item to the list at index i.
+        Assumes that i <= len(list).
+        '''
+        assert i >= 0
         node = Node(item)
 
-        while curr != None or i > 0:
-            prev = curr
-            curr = curr.getNext()
+        prev = None
+        ith = self.head
+
+        while i > 0:
+            prev = ith
+            ith = ith.getNext()
             i -= 1
 
         if None == prev:
             node.setNext(self.head)
             self.head = node
         else:
-            node.setNext(curr)
+            node.setNext(ith)
             prev.setNext(node)
 
-
-#insert, index, and pop
 
 #
 # TEST
@@ -181,3 +186,11 @@ list.append(2)
 assert 2 == list.index(2)
 assert 1 == list.index(1)
 assert 0 == list.index(0)
+
+list = randomUnorderedList()
+list.insert(5, 420)
+assert 5 == list.index(420)
+
+list = UnorderedList()
+list.insert(0, 12)
+assert 0 == list.index(12)
