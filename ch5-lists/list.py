@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
+import random
+
 class Node:
-    def __init__(self,initdata):
+    def __init__(self, initdata):
         self.data = initdata
         self.next = None
 
@@ -25,11 +27,19 @@ class UnorderedList:
         return self.head == None
 
     def add(self, item):
+        '''
+        self, item -> None.
+        Adds the item to the front of the list.
+        '''
         tmp = Node(item)
         tmp.setNext(self.head)
         self.head = tmp
 
     def size(self):
+        '''
+        self -> int.
+        Returns the number of nodes in the list.
+        '''
         curr = self.head
         count = 0
 
@@ -40,6 +50,10 @@ class UnorderedList:
         return count
 
     def search(self, item):
+        '''
+        self, item -> Boolean.
+        Returns whether or not the item is in the list.
+        '''
         curr = self.head
 
         while curr != None:
@@ -50,6 +64,11 @@ class UnorderedList:
         return False
 
     def remove(self, item):
+        '''
+        self, item -> None.
+        Removes the item from the list.
+        Assumes that the item is in the list.
+        '''
         curr = self.head
         prev = None
 
@@ -67,21 +86,40 @@ class UnorderedList:
             else:
                 prev.setNext(curr.getNext())
 
-    def append(self,item):
-        curr = self.head
-        prev = None
+    def append(self, item):
+        '''
+        self, item -> None.
+        Appends the item to the end of the list.
+        '''
+        last = self.head
         node = Node(item)
 
-        while curr != None:
-            prev = curr
+        if None == last:     # empty list
+            self.head = node
+            return
+
+        while None != last.getNext():
+            last = last.getNext()
+
+        last.setNext(node)
+
+    def index(self, item):
+        '''
+        self, item -> int.
+        Returns the position (aka the index) of the item in the list.
+        Assumes that the item is in the list.
+        '''
+        curr = self.head
+        i = 0
+
+        while None != curr:
+            if item == curr.getData():
+                return i
+
+            i += 1
             curr = curr.getNext()
 
-        if None == prev:
-            self.head = node
-        else:
-            prev.setNext(node)
-
-    def insert(self,i,item):
+    def insert(self, i, item):
         curr = self.head
         prev = None
         node = Node(item)
@@ -98,21 +136,6 @@ class UnorderedList:
             node.setNext(curr)
             prev.setNext(node)
 
-    def index(self,item):
-        ITEM_NOT_FOUND = -1
-
-        curr = self.head
-        i = ITEM_NOT_FOUND
-
-        found = False
-        while None != curr and not found:
-            if item == curr.getData():
-                found = True
-
-            i += 1
-            curr == curr.getNext()
-
-        return i
 
 #insert, index, and pop
 
@@ -120,23 +143,41 @@ class UnorderedList:
 # TEST
 #
 
+def randomUnorderedList():
+    ret = UnorderedList()
+    for i in range(10):
+        ret.add(random.choice(range(10)))
+
+    return ret
+
 list = UnorderedList()
-
 assert list.isEmpty()
+assert 0 == list.size()
 
-list.add(1) # [1]
-assert list.search(1)
-assert not list.search(2)
-
-list.remove(1) # []
-assert not list.search(1)
-
-list.append(42) # [42]
-assert list.search(42)
+list = UnorderedList()
+list.add(42)
 assert 1 == list.size()
 
-list.insert(1, 12) # [42, 12]
-assert 2 == list.size()
-assert list.search(12)
+list = randomUnorderedList()
+list.add(42)
+list.search(42)
 
-print list.index(12)
+list = randomUnorderedList()
+list.add(42)
+assert list.search(42)
+list.remove(42)
+assert not list.search(42)
+
+list = UnorderedList()
+list.append(10)
+0 == list.index(10)
+
+list = UnorderedList()
+list.append(0)
+assert 0 == list.index(0)
+list.append(1)
+assert 1 == list.index(1)
+list.append(2)
+assert 2 == list.index(2)
+assert 1 == list.index(1)
+assert 0 == list.index(0)
