@@ -143,6 +143,45 @@ class UnorderedList:
             node.setNext(ith)
             prev.setNext(node)
 
+    def pop(self, i=None):
+        '''
+        self -> item (the last one in the list).
+        self, i -> item (the ith item in the list).
+        Either removes and returns the last item in the list or the ith item of the list.
+        Assumes that there is a value at the given index.
+        '''
+
+        if None == i:
+            prev = None
+            curr = self.head
+
+            while None != curr.getNext():
+                prev = curr
+                curr = curr.getNext()
+
+            if None == prev:
+                prev = self.head
+
+            prev.setNext(None)
+
+            return curr.getData()
+        else:
+            prev = None
+            ith = self.head
+
+            while i > 0:
+                prev = ith
+                ith = ith.getNext()
+                i -= 1
+
+            if None == prev:
+                prev = self.head
+
+            prev.setNext(ith.getNext())
+
+            return ith.getData()
+
+
 
 #
 # TEST
@@ -194,3 +233,15 @@ assert 5 == list.index(420)
 list = UnorderedList()
 list.insert(0, 12)
 assert 0 == list.index(12)
+
+list = UnorderedList()
+list.add(10)
+list.add(11)
+assert 10 == list.pop()
+assert 1 == list.size()
+
+list = UnorderedList()
+list.add(11)
+list.add(10)
+assert 11 == list.pop(1)
+assert 10 == list.pop()
