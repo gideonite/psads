@@ -22,6 +22,7 @@ class Node:
 class UnorderedList:
     def __init__(self):
         self.head = None
+        self.tail = None
 
     def isEmpty(self):
         return self.head == None
@@ -31,9 +32,14 @@ class UnorderedList:
         self, item -> None.
         Adds the item to the front of the list.
         '''
-        tmp = Node(item)
-        tmp.setNext(self.head)
-        self.head = tmp
+        node = Node(item)
+        node.setNext(self.head)
+
+        if None == self.head:
+            assert None == self.tail
+            self.tail = node
+
+        self.head = node
 
     def size(self):
         '''
@@ -90,18 +96,16 @@ class UnorderedList:
         '''
         self, item -> None.
         Appends the item to the end of the list.
+        And does so in constant algorithmic time.
         '''
-        last = self.head
+
         node = Node(item)
 
-        if None == last:     # empty list
-            self.head = node
-            return
+        if None == self.tail:
+            self.add(node)
 
-        while None != last.getNext():
-            last = last.getNext()
-
-        last.setNext(node)
+        self.tail.setNext(node)
+        self.tail = node
 
     def index(self, item):
         '''
@@ -214,7 +218,7 @@ assert not list.search(42)
 
 list = UnorderedList()
 list.append(10)
-0 == list.index(10)
+assert 0 == list.index(10)
 
 list = UnorderedList()
 list.append(0)
