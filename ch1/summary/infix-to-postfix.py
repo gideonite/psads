@@ -31,7 +31,6 @@ def infixToPostfix(infixexpr):
 
     for op in prec.keys():
         infixexpr = infixexpr.replace(op, " " + op + " ")
-    infixexpr = infixexpr.replace("(", " ( ")
     infixexpr = infixexpr.replace(")", " ) ")
     tokenList = infixexpr.split()
 
