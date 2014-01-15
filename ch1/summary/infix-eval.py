@@ -19,52 +19,48 @@ class Stack:
     def size(self):
         return len(self.items)
 
-def infixEval(expr):
-    if "" == expr:
-        return expr
-
-    prec = {}
-    prec["*"] = 3
-    prec["/"] = 3
-    prec["+"] = 2
-    prec["-"] = 2
-    prec["("] = 1
+def infix_eval(expr_str):
     operators = Stack()
-    operands = Stack()
+    numbers = Stack()
 
-    tokens = expr.split()
-    for token in tokens:
-        if token in "0123456789":
-            operands.push(int(token))
+    order = {}
+    order["*"] = 2
+    order["/"] = 2
+    order["+"] = 1
+    order["-"] = 1
 
-            while (not operators.isEmpty()):
+    for ch in expr_str.split(" "):
+        if ch in order.keys():
+            operators.push(ch)
+        else:   # number
+            n = int(ch)
+            numbers.push(n)
+            if not operators.isEmpty():
+                n2 = numbers.pop()
+                n1 = numbers.pop()
                 op = operators.pop()
-                arg2 = operands.pop()
-                arg1 = operands.pop()
-                result = doMath(op, arg1, arg2)
-                operands.push(result)
 
-def doMath(op, arg1, arg2):
-    '''
-    string, int, int -> int.
-    Assumes that the operator is one of "+", "-", "*", "/".
-    '''
+                result = doMath(op, n1, n2)
+                numbers.push(result)
+
+    while not operators.isEmpty():
+        op = operators.pop()
+        n2 = numbers.pop()
+        n1 = numbers.pop()
+
+        result = doMath(op, n1, n2)
+        numbers.push(result)
+
+    return numbers.pop()
+
+def doMath(op, n1, n2):
     if "*" == op:
-        return arg1 * arg2
-
+        return n1 * n2
     if "/" == op:
-        return arg1 / arg2
-
-    if "+" == op:
-        return arg1 + arg2
-
+        return n1 / n2
     if "-" == op:
-        return arg1 - arg2
+        return n1 - n2
+    if "+" == op:
+        return n1 + n2
 
-doMath("+", 1, 2)
-
-infixEval("")
-infixEval("1 + 2")
-infixEval("1 * 1")
-infixEval("1 + 1 + 1")
-#infixEval("5 * 20 + 10")
+print infix_eval("2 * 3 - 48 / 4 - 4 * 5")
