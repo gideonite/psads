@@ -52,7 +52,7 @@ class Heap:
         '''
         return self.array[i]
 
-    def heapify(self, i):
+    def recursive_max_heapify(self, i):
         '''
         Float node `i` down until the heap property is met:
             Heap[Parent[i]] >= Heap[i]
@@ -75,11 +75,37 @@ class Heap:
             self.array[largest] = curr
 
             # float to the next one
-            self.heapify(largest)
+            self.recursive_max_heapify(largest)
+
+    def iterative_max_heapify(self, i):
+        curr = i
+        largest = None
+
+        while 1:
+            curr_val = self.array[curr]
+            l = self.left(curr)
+            r = self.right(curr)
+
+            if l and self.array[l] > curr_val:
+                largest = l
+
+            if r and self.array[r] > curr_val:
+                largest = r
+
+            if curr == largest:
+                break
+
+            # swap
+            self.array[curr] = self.array[largest]
+            self.array[largest] = curr_val
+
+            curr = largest
 
 h1 = Heap([2,3,1])
+
 h2 = Heap([-1] + range(100,-1,-1))
+h2prime =  Heap([-1] + range(100,-1,-1))
 
-h2.heapify(h2.root)
-
-print h2.array
+h2.recursive_max_heapify(0)
+h2prime.iterative_max_heapify(0)
+assert h2.array == h2prime.array
