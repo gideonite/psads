@@ -31,24 +31,25 @@ def infix_eval(expr_str):
 
     for ch in expr_str.split(" "):
         if ch in order.keys():
+            if not operators.isEmpty() and order[operators.peek()] > order[ch]:
+                op = operators.pop()
+                n1 = numbers.pop()
+                n2 = numbers.pop()
+                result = doMath(op, n2, n1)
+                print op,n1,n2,"=>",result
+                numbers.push(result)
             operators.push(ch)
-        else:   # number
+        else:
             n = int(ch)
             numbers.push(n)
-            if not operators.isEmpty():
-                n2 = numbers.pop()
-                n1 = numbers.pop()
-                op = operators.pop()
-
-                result = doMath(op, n1, n2)
-                numbers.push(result)
 
     while not operators.isEmpty():
         op = operators.pop()
-        n2 = numbers.pop()
         n1 = numbers.pop()
+        n2 = numbers.pop()
+        result = doMath(op, n2, n1)
 
-        result = doMath(op, n1, n2)
+        print op,n1,n2,"=>",result
         numbers.push(result)
 
     return numbers.pop()
@@ -58,9 +59,9 @@ def doMath(op, n1, n2):
         return n1 * n2
     if "/" == op:
         return n1 / n2
-    if "-" == op:
-        return n1 - n2
     if "+" == op:
         return n1 + n2
+    if "-" == op:
+        return n1 - n2
 
 print infix_eval("2 * 3 - 48 / 4 - 4 * 5")
