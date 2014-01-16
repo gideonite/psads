@@ -1,3 +1,5 @@
+find the median of a stream of numbers using two heaps.
+
 CLRS heapsort.
 
 pythonads direct infix evaluator.
