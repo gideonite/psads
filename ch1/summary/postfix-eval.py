@@ -49,7 +49,7 @@ def doMath(op, op1, op2):
     else:
         return op1 - op2
 
-postfixEval('+ 1')
-postfixEval('1 + ')
-postfixEval('1 1 1 +')
-postfixEval('7 8 + 3 2 + /')
+# postfixEval('+ 1')
+# postfixEval('1 + ')
+# postfixEval('1 1 1 +')
+# postfixEval('7 8 + 3 2 + /')
