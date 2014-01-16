@@ -2,7 +2,7 @@
 
 import math
 
-class Heap:
+class MaxHeap:
     '''
     Implements a max heap. Should be similar for a min heap.
 
@@ -101,9 +101,9 @@ class Heap:
 
             curr = largest
 
-h1 = Heap([2,3,1])
+h1 = MaxHeap([2,3,1])
 
-h2 = Heap([-1] + range(100,-1,-1))
+h2 = MaxHeap([-1] + range(100,-1,-1))
 h2prime =  Heap([-1] + range(100,-1,-1))
 
 h2.recursive_max_heapify(0)
