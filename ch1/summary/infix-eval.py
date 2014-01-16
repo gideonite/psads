@@ -29,14 +29,14 @@ def infix_eval(expr_str):
     order["+"] = 1
     order["-"] = 1
 
-    for ch in expr_str.split(" "):
+    for ch in reversed(expr_str.split(" ")):
         if ch in order.keys():
             if not operators.isEmpty() and order[operators.peek()] > order[ch]:
                 op = operators.pop()
                 n1 = numbers.pop()
                 n2 = numbers.pop()
-                result = doMath(op, n2, n1)
-                print op,n1,n2,"=>",result
+
+                result = doMath(op, n1, n2)
                 numbers.push(result)
             operators.push(ch)
         else:
@@ -47,21 +47,26 @@ def infix_eval(expr_str):
         op = operators.pop()
         n1 = numbers.pop()
         n2 = numbers.pop()
-        result = doMath(op, n2, n1)
 
-        print op,n1,n2,"=>",result
+        result = doMath(op, n1, n2)
         numbers.push(result)
 
     return numbers.pop()
 
 def doMath(op, n1, n2):
+    result = None
     if "*" == op:
-        return n1 * n2
+        result = n1 * n2
     if "/" == op:
-        return n1 / n2
+        result = n1 / n2
     if "+" == op:
-        return n1 + n2
+        result = n1 + n2
     if "-" == op:
-        return n1 - n2
+        result = n1 - n2
 
-print infix_eval("2 * 3 - 48 / 4 - 4 * 5")
+    #print op, n1, n2, "=>", result
+
+    return result
+
+assert 12 == doMath("/", 48, 4)
+assert -26 == infix_eval("2 * 3 - 48 / 4 - 4 * 5")
