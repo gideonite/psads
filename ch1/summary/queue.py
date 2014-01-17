@@ -16,6 +16,7 @@ class Queue:
     def enqueue(self, item):
         self.count += 1
         self.enqueue_stack.append(item)
+        return self
 
     def dequeue(self):
         self.count -= 1
