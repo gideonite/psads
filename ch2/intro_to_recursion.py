@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 def reverse(string):
     def helper(string, acc):
@@ -44,3 +45,17 @@ assert is_palindrome("Go hang a salami; I’m a lasagna hog.")
 assert is_palindrome("Able was I ere I saw Elba")
 assert is_palindrome("Kanakanak")
 assert is_palindrome("Wassamassaw")
+
+def toStr(n,base):
+    '''
+    int, int -> string.
+    Converts a number n to a string representation
+    of the number in the given base.
+    '''
+
+    digits = "0123456789ABCDEF"
+
+    if n < base:
+        return digits[n]
+
+    return toStr(n/base, base) + digits[n % base]
