@@ -1,0 +1,64 @@
+#!/usr/bin/python
+
+def list_reverse(alist):
+    if [] == alist:
+        return []
+
+    reversed_list = list_reverse(alist[1:])
+    reversed_list.append(alist[0])
+
+    return reversed_list
+
+list_reverse([])
+list_reverse([1])
+list_reverse([1,2])
+list_reverse([1,2,3])
+
+def fibonacci(num_terms):
+    if 0 == num_terms:
+        return 0
+    if 1 == num_terms:
+        return 1
+
+    return fibonacci(num_terms-1) + fibonacci(num_terms-2)
+
+fibonacci(6)
+fibonacci(5)
+fibonacci(4)
+fibonacci(3)
+fibonacci(2)
+fibonacci(1)
+fibonacci(0)
+
+def fib_gen():
+    a,b = 0,1
+
+    while 1:
+        yield a
+        a,b = b,a+b
+
+f = fib_gen()
+f.next()
+print [f.next() for i in range(100)]
+
+def fibonacci2(num_terms):
+    a,b = 0,1
+    ret = []
+    for i in range(num_terms+1):
+        ret.append(a)
+        a,b = b,a+b
+
+    return ret[1:]     # don't want that first 0
+
+fibonacci2(0)
+fibonacci2(1)
+fibonacci2(2)
+fibonacci2(3)
+fibonacci2(4)
+fibonacci2(5)
+fibonacci2(6)
+fibonacci2(7)
+
+def hanoi(curr, target, other):
+
+hanoi(range(4), [], [])
