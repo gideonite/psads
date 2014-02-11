@@ -59,6 +59,35 @@ fibonacci2(5)
 fibonacci2(6)
 fibonacci2(7)
 
-def hanoi(curr, target, other):
+def hanoi(num_disks):
+    '''
+    Iterative solution to the Tower of Hanoi problem.
 
-hanoi(range(4), [], [])
+    Sources:
+        http://programmingpraxis.com/2011/10/11/tower-of-hanoi/
+        http://www.ecse.rpi.edu/~wrf/p/28-sigplan84-hanoi.pdf
+    '''
+    towers = (range(num_disks), [], [])
+
+    flip_patterns = ((0,1),(0,2),(1,2))
+
+    last_moved = -1
+
+    flip_index = 0
+    while (num_disks != len(towers[2])+1):
+        fm, to = flip_patterns[flip_index]
+
+        print (fm, to), towers
+
+        if not towers[fm] or (towers[to] and towers[to][-1] > towers[fm][-1]):
+            to, fm = fm, to
+
+        towers[to].append(towers[fm].pop())
+
+        flip_index += 1
+        flip_index %= 3
+
+
+hanoi(10)
+
+# hanoi(range(4), [], [])
