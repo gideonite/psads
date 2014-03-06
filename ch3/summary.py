@@ -146,6 +146,10 @@ class OpenAddrHashTable:
     '''
 
     def ahash_f(self, astr):
+        '''
+        Essentially computes the dot product between the integer values
+        of the characters in `astr` and the vector [1,2,3,...].
+        '''
         astr = str(astr)
         return sum(i+1 * ord(ch) for i, ch in enumerate(astr))
 
@@ -205,9 +209,22 @@ class OpenAddrHashTable:
             if k == key:
                 return v
 
-        raise KeyError(key)
+            raise KeyError(key)
+    def delete(self, key):
+        index = self.indexify(key)
+        count = 0
 
-        # TODO: Implement `del` for the open addressed hash table above
+        while self.array[index] and count != self.array_size:
+            k,v = self.array[index]
+
+            if k == key:
+                self.array[index] = None
+                return
+
+            count+=1
+            index = (index+1) % self.array_sizek
+
+        raise KeyError(key)
 
 h = OpenAddrHashTable()
 
@@ -230,3 +247,12 @@ myHash.put(42,12)
 myHash.hash_f(12) % myHash.array_size
 print myHash.array
 myHash.hash_f(42) % myHash.array_size
+
+myHash.array
+
+myHash.delete(3)
+try:
+    myHash.delete(3)
+except KeyError:
+    pass
+print myHash.array
